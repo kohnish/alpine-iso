@@ -8,9 +8,9 @@ Scripts based on documentations from:
 Build:  
 ./build.sh  
 
-Install:
-extract it in the fat32 partition
-  
+-Install:
+-extract it in the fat32 partition
+
 Maintenance:  
 lbu -h  
 update-kernel -h  

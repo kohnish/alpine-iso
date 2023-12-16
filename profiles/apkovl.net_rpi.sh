@@ -58,6 +58,7 @@ EOF
 makefile root:root 0644 "$tmp"/etc/apk/repositories <<EOF
 http://dl-cdn.alpinelinux.org/alpine/edge/main
 http://dl-cdn.alpinelinux.org/alpine/edge/community
+https://dl-cdn.alpinelinux.org/alpine/edge/testing
 EOF
 
 mkdir -p "$tmp"/etc/conf.d
