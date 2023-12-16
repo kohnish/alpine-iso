@@ -4,13 +4,15 @@ set -euo pipefail
 
 profile=net_rpi
 out_dir=`readlink -f out`
-rpi_arch=armv7
+
+rpi_arch=${1:-armv7}
+profile=${2:-net_rpi}
 container_arch_opt=""
-if [[ `arch` == x86_64 ]]; then
+if [[ `arch` == "x86_64" ]] && [[ $rpi_arch == "armv7" ]]; then
     container_arch_opt='--arch arm'
 fi
 
-if ! buildah images localhost/abuilder; then
+if ! buildah images localhost/abuilder-$rpi_arch; then
     buildah_run_cmd="buildah run"
     ctr=$(buildah from $container_arch_opt docker.io/library/alpine:edge)
 
@@ -24,7 +26,7 @@ if ! buildah images localhost/abuilder; then
     echo "/root/abuild.key" | abuild-keygen -i -a && \
     git clone --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
     '
-    buildah commit $ctr abuilder
+    buildah commit $ctr abuilder-$rpi_arch
 fi
 
 podman run \
@@ -42,4 +44,4 @@ podman run \
        -e env_profile_name=$profile \
        -e env_tag=edge \
        -e env_out_dir=$out_dir \
-       localhost/abuilder
+       localhost/abuilder-$rpi_arch
